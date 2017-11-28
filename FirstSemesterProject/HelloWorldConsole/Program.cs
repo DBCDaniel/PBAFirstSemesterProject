@@ -13,7 +13,7 @@ namespace HelloWorldConsole
         {
             HelloWorld hw = new HelloWorld();
             Console.WriteLine(hw.SayIt());
-            Console.ReadLine();
+            Console.ReadLine(
         }
     }
 }
