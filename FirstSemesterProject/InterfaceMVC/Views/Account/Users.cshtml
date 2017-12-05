@@ -1,0 +1,54 @@
+﻿@model IEnumerable<InterfaceMVC.Models.UserAccount>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+<p>
+    @Html.ActionLink("Register New Account", "UserRegister")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Clearance)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Clearance)
+        </td>
+        <td>
+            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Reset Password" class="btn btn-default" onclick="location.href='@Url.Action("PasswordReset", "Account", new { id = item.UserID })'" />
+            <input type="submit" value="DELETE" class="btn btn-default" onclick="location.href='@Url.Action("DeleteAccount", "Account", new { id = item.UserID })'" />
+@*
+    @Html.ActionLink("Password Reset", "PasswordReset", new { id = item.UserID }) |
+    @Html.ActionLink("Delete", "DeleteAccount", new { id=item.UserID })
+*@
+        </td>
+    </tr>
+}
+</table>

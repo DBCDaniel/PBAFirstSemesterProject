@@ -23,10 +23,10 @@
                     @if (Session["UserID"] != null)
                     {
                         <li>@Html.ActionLink("Home", "Index", "Account")</li>
-                        <li>@Html.ActionLink("Users", "Index", "Account")</li>
-                        <li>@Html.ActionLink("Clearance", "Index", "Account")</li>
-                        <li>@Html.ActionLink("EventLog", "Index", "Account")</li>
-                        <li>@Html.ActionLink("Logout", "Index", "Account")</li>
+                        <li>@Html.ActionLink("Users", "Users", "Account")</li>
+                        <li>@Html.ActionLink("Clearance Levels", "ClearanceLevels", "Account")</li>
+                        <li>@Html.ActionLink("EventLog", "EventLog", "Account")</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                     }
                     else
                     {

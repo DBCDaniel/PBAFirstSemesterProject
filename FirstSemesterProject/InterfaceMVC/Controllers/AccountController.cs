@@ -20,7 +20,14 @@ namespace InterfaceMVC.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Login");
+                    if (Session["UserID"] != null)
+                    {
+                        return RedirectToAction("Account");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Login");
+                    }
                 }
             }
         }
@@ -83,6 +90,162 @@ namespace InterfaceMVC.Controllers
             {
                 return RedirectToAction("Login");
             }
+        }
+
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        public ActionResult Users()
+        {
+            if (Session["UserID"] != null && Session["Clearance"] != null)
+            {
+                if (Session["Clearance"].ToString() != "-1")
+                {
+                    using (OurDbContext db = new OurDbContext())
+                    {
+                        int lvl = 0;
+                        int.TryParse(Session["Clearance"].ToString(), out lvl);
+                        ClearanceLevel clearance = db.clearanceLevel.Where(x => x.LevelID == lvl).FirstOrDefault();
+                        if (clearance.UserAdministration)
+                        {
+                            return View(db.userAccount.ToList());
+                        }
+                        else
+                        {
+                            return RedirectToAction("AccessDenied");
+                        }
+                    }
+                }
+                else
+                {
+                    using (OurDbContext db = new OurDbContext())
+                    {
+                        return View(db.userAccount.ToList());
+                    }
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
+        public ActionResult UserRegister()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UserRegister(UserAccount account)
+        {
+            if (ModelState.IsValid)
+            {
+                using (OurDbContext db = new OurDbContext())
+                {
+                    account.Clearance = 0;
+                    db.userAccount.Add(account);
+                    db.SaveChanges();
+                }
+                ModelState.Clear();
+                ViewBag.Message = account.FirstName + " " + account.LastName + " Created.";
+            }
+            return View();
+        }
+        
+        public ActionResult DeleteAccount(int id = 0)
+        {
+            ModelState.Clear();
+            ViewBag.Message = "ID# - " + id + " DELETED.";
+
+            return RedirectToAction("Users");
+        }
+        
+        public ActionResult ResetPassword(int id = 0)
+        {
+            ModelState.Clear();
+            ViewBag.Message = "ID# - " + id + " Password RESET.";
+
+            return RedirectToAction("Users");
+        }
+
+        public ActionResult ClearanceLevels()
+        {
+            if (Session["UserID"] != null && Session["Clearance"] != null)
+            {
+                if (Session["Clearance"].ToString() != "-1")
+                {
+                    using (OurDbContext db = new OurDbContext())
+                    {
+                        int lvl = 0;
+                        int.TryParse(Session["Clearance"].ToString(), out lvl);
+                        ClearanceLevel clearance = db.clearanceLevel.Where(x => x.LevelID == lvl).FirstOrDefault();
+                        if (clearance.ClearanceAdminstration)
+                        {
+                            return View(db.clearanceLevel.ToList());
+                        }
+                        else
+                        {
+                            return RedirectToAction("AccessDenied");
+                        }
+                    }
+                }
+                else
+                {
+                    using (OurDbContext db = new OurDbContext())
+                    {
+                        return View(db.clearanceLevel.ToList());
+                    }
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
+        public ActionResult EventLog()
+        {
+            if (Session["UserID"] != null && Session["Clearance"] != null)
+            {
+                if (Session["Clearance"].ToString() != "-1")
+                {
+                    using (OurDbContext db = new OurDbContext())
+                    {
+                        int lvl = 0;
+                        int.TryParse(Session["Clearance"].ToString(), out lvl);
+                        ClearanceLevel clearance = db.clearanceLevel.Where(x => x.LevelID == lvl).FirstOrDefault();
+                        if (clearance.EventLog)
+                        {
+                            return View(db.eventLog.ToList());
+                        }
+                        else
+                        {
+                            return RedirectToAction("AccessDenied");
+                        }
+                    }
+                }
+                else
+                {
+                    using (OurDbContext db = new OurDbContext())
+                    {
+                        return View(db.eventLog.ToList());
+                    }
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            Session["UserID"] = null;
+            Session["Username"] = null;
+            Session["Clearance"] = null;
+            return RedirectToAction("Login");
         }
     }
 }

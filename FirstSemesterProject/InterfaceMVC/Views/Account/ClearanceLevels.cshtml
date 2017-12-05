@@ -1,0 +1,50 @@
+﻿@model IEnumerable<InterfaceMVC.Models.ClearanceLevel>
+
+@{
+    ViewBag.Title = "ClearanceLevels";
+}
+
+<h2>ClearanceLevels</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserAdministration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClearanceAdminstration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventLog)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserAdministration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClearanceAdminstration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventLog)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.LevelID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.LevelID })
+        </td>
+    </tr>
+}
+
+</table>

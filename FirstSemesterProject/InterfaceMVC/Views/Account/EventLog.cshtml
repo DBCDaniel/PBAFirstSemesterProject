@@ -1,0 +1,52 @@
+﻿@model IEnumerable<InterfaceMVC.Models.EventLog>
+
+@{
+    ViewBag.Title = "EventLog";
+}
+
+<h2>EventLog</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataBefore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataAfter)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataBefore)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataAfter)
+        </td>
+        <td>
+            @Html.ActionLink("RollBack", "RollBack", new { id=item.EventID })
+        </td>
+    </tr>
+}
+
+</table>
